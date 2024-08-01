@@ -2,7 +2,7 @@ import AxiosWrapper from "../services/ApiConfig";
 
 export const fetchEmployeeList = async () => {
   return AxiosWrapper.get({
-    endpoint: "posts",
+    endpoint: "poststs",
   })
     .then((response) => {
       return {
@@ -11,9 +11,10 @@ export const fetchEmployeeList = async () => {
       };
     })
     .catch((error) => {
-        return {
-            status:error.response.status,
-            code:error.code
-          };
+        // return {
+        //     status:error.response.status,
+        //     code:error.code
+        //   };
+        throw error 
     });
 };
