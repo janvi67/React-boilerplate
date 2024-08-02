@@ -14,7 +14,7 @@ function Home() {
     employeeeApiList();
   },[])
   
-  return <div>Home</div>;
+  return <div>welcome to home page</div>;
 }
 
 export default Home;

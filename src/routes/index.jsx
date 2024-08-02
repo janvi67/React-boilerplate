@@ -1,9 +1,9 @@
 import React, { lazy } from 'react'
 import {Routes,Route} from "react-router-dom"
 
-
-const Login=lazy(()=> import("../pages/Login"))
 const Home=lazy(()=> import("../pages/Home"))
+const Login=lazy(()=> import("../pages/Login"))
+const Regiter=lazy(()=> import("../pages/Register"))
 
 function Router() {
 
@@ -14,6 +14,7 @@ function Router() {
       
       <Route path='/login' element={<Login/>}/>
       <Route path='/' element={<Home/>}/>
+      <Route path='/register' element={<Regiter/>}/>
    
      
       </Routes>

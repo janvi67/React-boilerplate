@@ -73,6 +73,7 @@ export default class AxiosWrapper {
     });
   };
 
+  
   static put = async ({ endpoint, id, body }) => {
     await AxiosWrapper.retrieveToken();
     let url = `${BASE_URL}${endpoint}`;
