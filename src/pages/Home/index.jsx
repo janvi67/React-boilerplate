@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { fetchEmployeeList } from "../../api/employee";
+import { fetchEmployeeList } from "../../api/users";
 
 function Home() {
   const employeeeApiList = async () => {

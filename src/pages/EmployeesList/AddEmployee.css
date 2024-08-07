@@ -14,7 +14,7 @@
   text-align: center;
   margin: 10px 0;
 }
-input[type="text"] {
+.name {
   width: 57%;
 
   padding: 15px;
@@ -23,13 +23,12 @@ input[type="text"] {
   border: none;
   background: #f1f1f1;
 }
-
 input[type="email"] {
   width: 57%;
 
   padding: 15px;
-  margin: 5px 5px 0px 25px;
-  margin-left: 30%;
+  /* margin: 5px 5px 0px 25px; */
+  margin-left: 23%;
   display: inline-block;
   border: none;
   background: #f1f1f1;
@@ -39,7 +38,7 @@ input[type="email"] {
 
   padding: 15px;
   margin: 5px 5px 0px 25px;
-  margin-left: 23%;
+  margin-left: 22%;
   display: inline-block;
   border: none;
   background: #f1f1f1;
@@ -55,7 +54,7 @@ input[type="email"] {
   background: #f1f1f1;
 }
 input[type="text"]:focus,
-input[type="password"]:focus {
+.input[type="password"]:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -98,7 +97,24 @@ hr {
   height: 2%;
   opacity: 0.9;
 }
+.website {
+  width: 57%;
 
+  padding: 15px;
+  margin: 5px 5px 0px 60px;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+.company {
+  width: 57%;
+
+  padding: 15px;
+  margin: 5px 5px 0px 42px;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
 .registerbtn:hover {
   opacity: 1;
 }

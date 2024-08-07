@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "./../constants";
 
+
 console.log("BASE_URL", BASE_URL);
 
 export default class AxiosWrapper {
@@ -13,12 +14,13 @@ export default class AxiosWrapper {
   static retrieveToken = async () => {
     try {
       this.token = await localStorage.getItem("token");
+      
     } catch (e) {
       console.error(e);
     }
   };
 
-  static get = async ({ endpoint, page, limit = 10, search, filter }) => {
+  static get = async ({ endpoint, page, limit = 10, search}) => {
     await AxiosWrapper.retrieveToken();
     let url = `${BASE_URL}${endpoint}`;
     const searchParams = [];
@@ -27,18 +29,17 @@ export default class AxiosWrapper {
       searchParams.push(`title=${search}`);
     }
     if (page) {
-      searchParams.push(`page=${page}&_limit=${limit}`);
+      searchParams.push(`page=${page}&limit=${limit}`);
     }
-    if (filter) {
-      searchParams.push(`${filter}=true`);
-    }
+    
     if (searchParams.length > 0) {
       params = searchParams.join("&");
       url = url + "?" + params;
     }
+    
     return axios.get(url, {
       headers: {
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `${this.token}`,
       },
     });
   };
@@ -68,8 +69,13 @@ export default class AxiosWrapper {
     return axios.post(`${BASE_URL}${endpoint}`, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `${this.token}`,
       },
+      params: {
+        page: searchQuery !== '' ? 1 : currentPage,
+        limit: itemsPerPage,
+        search: searchQuery
+    }
     });
   };
 

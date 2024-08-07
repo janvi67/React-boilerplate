@@ -1,8 +1,10 @@
 import AxiosWrapper from "../services/ApiConfig";
 
-export const fetchEmployeeList = async () => {
+export const usersList = async () => {
+ 
   return AxiosWrapper.get({
-    endpoint: "poststs",
+   
+    endpoint: "user/list",
   })
     .then((response) => {
       return {
