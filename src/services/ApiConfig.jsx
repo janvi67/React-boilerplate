@@ -59,7 +59,7 @@ export default class AxiosWrapper {
     return axios.get(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `${this.token}`,
       },
     });
   };
@@ -71,11 +71,7 @@ export default class AxiosWrapper {
         "Content-Type": "application/json",
         Authorization: `${this.token}`,
       },
-      params: {
-        page: searchQuery !== '' ? 1 : currentPage,
-        limit: itemsPerPage,
-        search: searchQuery
-    }
+   
     });
   };
 
@@ -89,7 +85,7 @@ export default class AxiosWrapper {
     return axios.put(url, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `${this.token}`,
       },
     });
   };
@@ -103,7 +99,7 @@ export default class AxiosWrapper {
     return axios.delete(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `${this.token}`,
       },
     });
   };

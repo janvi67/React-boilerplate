@@ -74,7 +74,7 @@ function Login() {
       }
     } catch (error) {
       toast.error(`login fail`);
-      
+      console.log(error)
 
     }
   };

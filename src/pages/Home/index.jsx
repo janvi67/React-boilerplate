@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { fetchEmployeeList } from "../../api/users";
+
 
 function Home() {
-  const employeeeApiList = async () => {
-    try {
-      const response = await fetchEmployeeList();
-      console.log("response",response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(()=>{
-    employeeeApiList();
-  },[])
+  // const employeeeApiList = async () => {
+  //   try {
+  //     const response = await fetchEmployeeList();
+  //     console.log("response",response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(()=>{
+  //   employeeeApiList();
+  // },[])
   
   return <div>welcome to home page</div>;
 }

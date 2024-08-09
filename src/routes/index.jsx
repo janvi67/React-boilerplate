@@ -26,6 +26,7 @@ function Router() {
      <Route path='/AddEmployee' element={<AddEmployee/>}/>
      <Route path='/Navbar' element={<NavBar/>}/>
      <Route path='/pagination' element={<Pagination/>}/>
+     <Route path='/Editemployee/:id' element={<AddEmployee/>}/>
       </Routes>
       
     

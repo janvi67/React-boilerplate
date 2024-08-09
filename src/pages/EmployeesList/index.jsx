@@ -6,11 +6,15 @@ import { AiFillEdit } from "react-icons/ai";
 import Pagination from "../Pagination";
 import NavBar from "../Navbar";
 import { useNavigate } from "react-router-dom";
+import { DeleteEmp } from "../../api/employees";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function Employee() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const [searchQuery, setSearchQuery] = useState("");
   const [totalRecords, setTotalRecords] = useState(0);
   const [pages, setPages] = useState(1);
@@ -29,7 +33,6 @@ function Employee() {
     }
     return options;
   };
-  
 
   const emp = async () => {
     try {
@@ -51,7 +54,6 @@ function Employee() {
   //   setCurrentPage(2);
   // }, [searchQuery]);
 
- 
   useEffect(() => {
     emp();
   }, [currentPage, itemsPerPage, searchQuery]);
@@ -62,7 +64,49 @@ function Employee() {
   };
 
   const handleEdit = (id) => {
-    navigate(`/AddEmployee/${id}`);
+    navigate(`/Editemployee/${id}`);
+  };
+  const handleDelete = async (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response3 = await DeleteEmp(id);
+        if (response3.data) {
+          setData(data.filter((employees) => employees._id !== id));
+
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        } else {
+          toast.error("failed to delete employee");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        /* Read more about handling dismissals below */
+
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+        });
+      }
+    });
   };
   return (
     <div>
@@ -117,7 +161,7 @@ function Employee() {
                 </button>
                 <button
                   className="btn btn-delete"
-                  //   onClick={() => handleDelete(user._id)}
+                  onClick={() => handleDelete(employees._id)}
                 >
                   <FaTrash />
                 </button>

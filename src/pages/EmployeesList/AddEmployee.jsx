@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { AddEmp, UpdateEmp } from "../../api/Auth";
+import { AddEmp, DeleteEmp, UpdateEmp } from "../../api/employees";
 import "../EmployeesList/AddEmployee.css";
+import { useParams } from "react-router-dom";
+import { fetchEmployee } from "../../api/employees";
 
 const schema = yup.object({
   name: yup.string().required("please fill your name"),
-  email: yup.string().required("please fill your email id"),
-  phone: yup.number().required("please fill your phone number"),
+  email: yup
+    .string()
+    .required("please fill your email id")
+    .email("please fill correct email id"),
+  phone: yup
+    .number()
+    .transform((value, originalValue) =>
+      originalValue.trim() === "" ? null : value
+    )
+    .nullable()
+    .required("please fill your phone no"),
   website: yup
     .string()
     .required("Please enter website")
@@ -22,82 +33,90 @@ const schema = yup.object({
 
   company: yup.string().required("website name  is required"),
 });
-yupResolver(schema);
+
 function AddEmployee() {
-  const [setName] = useState("");
-  const [setEmail] = useState("");
-  const [setPhone] = useState("");
-  const [setWebsite] = useState("");
-  const [setCompany] = useState("");
   const navigate = useNavigate();
-  const form = useForm();
+  const { id } = useParams();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = form;
+    setValue,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      website: "",
+      company: "",
+    },
+    resolver: yupResolver(schema),
+  });
 
-  // const handleEdit=async()=>{
+  useEffect(() => {
+    if (id) {
+      GetEmPloyee();
+    }
+  }, [id]);
 
-  //  try {
-  //   if (response.status === 200) {
-  //     const employee = response.data.data;
-  //     setName(employee.name);
-  //     setEmail(employee.email);
-  //     setPhone(employee.phone);
-  //     setWebsite(employee.website);
-  //     setCompany(employee.company);
-  // }
-    
-  //  } catch (error) {
-  //   toast.error("Failed to fetch employee details.", { autoClose: 2000, position: "top-center" });
-    
-  //  }
-  //   const response = await UpdateEmp(body);
-
-
-  // }
-  // console.log(errors);
   const formSubmit = async (data) => {
-    console.log("FORM DATA", data);
-    // handleEdit();
-
     try {
-      const body = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        website: data.website,
-        company: data.company,
-      };
-      const response = await AddEmp(body);
-
-      if (response.data) {
-        toast.success("Add Employee Successful", {
-          autoClose: 2000,
-          position: "top-center",
+      if (id) {
+        const response2 = await UpdateEmp({
+          id,
+          body: data,
         });
 
+        if (response2.data) {
+          toast.success("edit Employee Successful", {
+            autoClose: 2000,
+            position: "top-center",
+          });
+        }
         setTimeout(() => {
           navigate("/EmployeesList");
         }, 4000);
+      } else {
+        const response = await AddEmp(data);
+        if (response.data) {
+          toast.success("add Employee Successful", {
+            autoClose: 2000,
+            position: "top-center",
+          });
+
+          setTimeout(() => {
+            navigate("/EmployeesList");
+          }, 4000);
+        }
       }
     } catch (error) {
-      toast.error(`${error.response.data.message}`);
+      toast.error(error);
       reset();
     }
   };
+
+  const GetEmPloyee = async () => {
+    const response = await fetchEmployee({ id });
+    console.log(response);
+    try {
+      if (response) {
+        const employee = response.data.data;
+        setValue("name", employee.name);
+        setValue("email", employee.email);
+        setValue("phone", employee.phone);
+        setValue("website", employee.website);
+        setValue("company", employee.company);
+      }
+    } catch (error) {}
+  };
+
   return (
     <div>
-      <form
-        action="#"
-        className="main"
-        onSubmit={handleSubmit(formSubmit)}
-        noValidate
-      >
+      <form className="main" onSubmit={handleSubmit(formSubmit)} noValidate>
         <div className="container">
-          <h1>Add Empolyeee</h1>
+          <h1>{id ? "Edit Employee" : "Add Employeee"}</h1>
           <p>Please fill in this form to add an employee.</p>
           <hr />
           <div>
@@ -109,7 +128,6 @@ function AddEmployee() {
                 placeholder="Enter your  Name"
                 name="name"
                 id="name"
-                onChange={(e) => setName(e.target.value)}
                 {...register("name")}
               />
               <p className="error">{errors.name?.message}</p>
@@ -127,10 +145,9 @@ function AddEmployee() {
               placeholder="Enter your email id "
               name="email"
               id="email"
-              onChange={(e) => setEmail(e.target.value)}
               {...register("email")}
             />
-            <p className="error">{errors.phone?.message}</p>
+            <p className="error">{errors.email?.message}</p>
             <br />
           </div>
 
@@ -141,12 +158,11 @@ function AddEmployee() {
             </label>
 
             <input
-              type="tel"
+              type="number"
               className="input-2"
               placeholder="Enter your phone number"
               name="phone"
               id="phone"
-              onChange={(e) => setPhone(e.target.value)}
               {...register("phone")}
             />
             <p className="error">{errors.phone?.message}</p>
@@ -164,7 +180,6 @@ function AddEmployee() {
               placeholder="Enter your website name"
               name="website"
               id="website"
-              onChange={(e) => setWebsite(e.target.value)}
               {...register("website")}
             />
             <p className="error">{errors.website?.message}</p>
@@ -182,14 +197,13 @@ function AddEmployee() {
               placeholder="Enter your company name"
               name="company"
               id="company"
-              onChange={(e) => setCompany(e.target.value)}
               {...register("company")}
             />
             <p className="error">{errors.company?.message}</p>
             <br />
           </div>
           <button type="submit" className="registerbtn">
-            Submit
+            {id ? "submit" : "Add"}
           </button>
         </div>
       </form>
