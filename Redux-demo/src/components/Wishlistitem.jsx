@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from '../react-redux'
+import { useDispatch } from 'react-redux'
 import { removeCartItem } from '../store/slices/cartSlice'
 import { removeWishListItem } from '../store/slices/wishListSlice'
 

@@ -1,7 +1,12 @@
-import React from 'react'
-import CartItem from '../../components/CartItem'
-import { useSelector } from '../../react-redux'
-
+import React from "react";
+import CartItem from "../../components/CartItem";
+import { useSelector } from "react-redux";
+import {
+  getCartError,
+  getCartItems,
+  getCartLoadingState,
+} from "../../store/slices/cartSlice";
+import NoCart from "../../components/NoCart";
 
 export default function Cart() {
   // const cartItems = [
@@ -30,9 +35,16 @@ export default function Cart() {
   //     price: 15.99,
   //   },
   // ]
-  const cartItems = useSelector((state) => state.cartItems)
-  console.log("cartitems",cartItems)
-  return (
+  const cartItems = useSelector(getCartItems);
+
+  // console.log("cartitems", cartItems);
+  const isLoading = useSelector(getCartLoadingState);
+  const error = useSelector(getCartError);
+  // console.log(isLoading)
+
+  return cartItems.length === 0 ? (
+    <h1 style={{textAlign:"center"}}>your cart is empty</h1>
+  ) : (
     <div className="cart-container">
       <h2>Items in Your Cart</h2>
       <div className="cart-items-container">
@@ -42,33 +54,41 @@ export default function Cart() {
           <div className="quantity">Quantity</div>
           <div className="total">Total</div>
         </div>
-        {cartItems.map(
-          ({ productId, title, rating, price, imageUrl, quantity }) => (
+        {isLoading ? (
+          <h1 style={{ textAlign: "center" }}>Loading...</h1>
+        ) : error ? (
+          <h2 style={{ textAlign: "center" }}>{error}</h2>
+        ) : (
+          cartItems.map(({ id, title, rating, price, image, quantity }) => (
             <CartItem
-              key={productId}
-              productId={productId}
+              key={id}
+              productId={id}
               title={title}
               price={price}
               quantity={quantity}
-              imageUrl={imageUrl}
-              rating={rating}
+              imageUrl={image}
+              rating={rating.rate}
             />
-          )
+          ))
         )}
         <div className="cart-header cart-item-container">
           <div></div>
           <div></div>
           <div></div>
-          <div className="total">
-            $
-            {cartItems.reduce(
-              (accumulator, currentItem) =>
-                accumulator + currentItem.quantity * currentItem.price,
-              0
-            )}
-          </div>
+          {!isLoading && !error && (
+            <div className="total">
+              $
+              {cartItems
+                .reduce(
+                  (accumulator, currentItem) =>
+                    accumulator + currentItem.quantity * currentItem.price,
+                  0
+                )
+                .toFixed(2)}
+            </div>
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }

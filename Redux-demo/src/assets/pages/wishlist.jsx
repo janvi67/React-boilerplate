@@ -1,6 +1,6 @@
 import React from 'react'
 import Wishlistitem from '../../components/Wishlistitem'
-import { useSelector } from '../../react-redux'
+import { useSelector } from 'react-redux'
 
 
 export default function Wishlist() {
@@ -63,7 +63,7 @@ export default function Wishlist() {
               (accumulator, currentItem) =>
                 accumulator + currentItem.quantity * currentItem.price,
               0
-            )}
+            ).toFixed(2)}
           </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ const store= createStore(reducer,__REDUX_DEVTOOLS_EXTENSION__());
 
 
 store.subscribe(()=>{
-  console.log(store.getState())
+  // console.log(store.getState())
   // countElement.innerText=store.getState().count
 })
 
