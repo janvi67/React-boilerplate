@@ -81,6 +81,7 @@ function AddEmployee() {
       } else {
         const response = await AddEmp(data);
         if (response.data) {
+         
           toast.success("add Employee Successful", {
             autoClose: 2000,
             position: "top-center",

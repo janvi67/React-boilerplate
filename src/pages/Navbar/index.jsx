@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Navbar.css'
 import { clearAuthData } from  "../../utils/Auth.js"; 
+import { logout } from '../../store/slices/userAuth.js';
+import { useDispatch } from 'react-redux';
 
 function NavBar({ setSearchQuery }) {
     const navigate = useNavigate();
+    const dispatch=useDispatch();
     const [first_name, setFirstname] = useState('');
 
     useEffect(() => {
@@ -47,6 +50,7 @@ function NavBar({ setSearchQuery }) {
         localStorage.removeItem('token');
         clearAuthData();
         navigate('/Login');
+        dispatch(logout())
     };
 
     const handleSearchChange = (e) => {

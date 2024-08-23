@@ -1,13 +1,14 @@
 import React,{useEffect,useState} from 'react'
 import './UsersListtt.css'
 import {usersList } from "../../api/users";
-
+import { useSelector } from 'react-redux';
 
       
 function UsersListt() {
 
     const [data, setData] = useState([]);
-
+const user =  useSelector((state)=>state.root.userReducer.user)
+console.log('user',user)
     const userList = async () => {
         try {
           const response = await usersList();

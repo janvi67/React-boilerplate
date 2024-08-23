@@ -10,6 +10,8 @@ import { DeleteEmp } from "../../api/employees";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { empData } from "../../store/slices/employeeAuth";
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -21,7 +23,7 @@ function Employee() {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-
+const dispatch=useDispatch()
   const generateItemsPerPageOptions = () => {
     const options = [];
     for (let i = 0; i < 3; i++) {
@@ -36,19 +38,35 @@ function Employee() {
 
   const emp = async () => {
     try {
+     
       const response = await employeesList({
         page: currentPage,
         limit: itemsPerPage,
         search: searchQuery,
-      });
-      console.log("response", response);
+      }
+      
+    );
+    const { data } = response.data.data.data;
+    if(data){
+    const obj = {
+      id:data._id,
+      name:data.name,
+      email:data.email,
+      phone:data.phone,
+      website:data.website,
+      company:data.company,
+    };
+    console.log("empobj",obj)
       setData(response.data.data.data);
       setTotalRecords(response.data.data.total);
       setPages(Math.ceil(response.data.data.total / itemsPerPage));
-    } catch (error) {
+  dispatch(empData(obj))
+      console.log("empres",response)
+    } }catch (error) {
       console.log(error);
       setError(error);
     }
+   
   };
   // useEffect(() => {
   //   setCurrentPage(2);
