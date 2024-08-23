@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import { toast} from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Register.css";
+import { getAuthData } from "../../utils/Auth";
 
 const schema = yup.object({
   first_name: yup.string().required("please fill your first name"),
@@ -83,6 +84,13 @@ function Register() {
       toast.error(`${error.response.data.message}`);
       reset();
     }
+
+    // useEffect(()=>{
+    //   const authData = getAuthData();
+    //   if (authData.email===data.email) {
+    //    toast.error("this email is already exists please provide unique email")
+    //   }
+    // })
   };
 
   return (

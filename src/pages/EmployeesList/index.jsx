@@ -145,8 +145,8 @@ function Employee() {
         </thead>
 
         <tbody>
-          {data.map((employees) => (
-            <tr key={employees.id}>
+          {data.map((employees,index) => (
+            <tr key={employees.id||index}>
               <td>{employees.name}</td>
               <td>{employees.email}</td>
               <td>{employees.phone}</td>

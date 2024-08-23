@@ -33,9 +33,9 @@ function UsersListt() {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((user) => (
+                        {data.map((user,index) => (
                             
-                            <tr key={user.id}>
+                            <tr key={user.id||index}>
                                 <td>{user.first_name}</td>
                                 <td>{user.last_name}</td>
                                 <td>{user.email}</td>
