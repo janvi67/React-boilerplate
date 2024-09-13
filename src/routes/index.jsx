@@ -4,7 +4,7 @@ import ProtectedRoute from "./protectedRoutes";
 import { useSelector } from "react-redux";
 
 const Home = lazy(() => import("../pages/Home"));
-const Login = lazy(() => import("../pages/Login"));
+const Login = lazy(() => import("../components/Header/Login"));
 const Regiter = lazy(() => import("../pages/Register"));
 const UsersListt = lazy(() => import("../pages/UsersListt"));
 const EmployeesList = lazy(() => import("../pages/EmployeesList"));

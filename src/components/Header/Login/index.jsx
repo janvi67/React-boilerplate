@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { LoginUser } from "../../api/Auth";
+import { LoginUser } from "../../../api/Auth.js";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { setAuthData, getAuthData, clearAuthData } from "../../utils/Auth.js"; // Adjust the import path as needed
+import { setAuthData, getAuthData, clearAuthData } from "../../../utils/Auth.js"; // Adjust the import path as needed
 
 import "./Login.css";
 import { useDispatch } from "react-redux";
-import { login, logout} from "../../store/slices/userAuth.js";
+import { login, logout} from "../../../store/slices/userAuth.js";
 
 const schema = yup.object({
   email: yup.string().required("please fill your mail id"),
